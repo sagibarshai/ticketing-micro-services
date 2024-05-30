@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-depl
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: auth
+  template:
+    metadata:
+      labels:
+        component: auth
+    spec:
+      containers:
+        - image: 315426346/ticketing-auth:latest
+          name: auth-container
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  type: ClusterIP
+  selector:
+    component: auth
+  ports:
+    - port: 3000
+      targetPort: 3000

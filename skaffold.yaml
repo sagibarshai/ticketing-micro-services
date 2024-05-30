@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta3
+kind: config
+manifests:
+  rawYaml:
+      - ./k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: 315426346/ticketing-auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync: 
+        manual:
+          - src: './src/**/.ts'
+            dest: .
