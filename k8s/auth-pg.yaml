@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pg-depl
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: auth-pg
+  template:
+    metadata:
+      labels:
+        component: auth-pg
+    spec:
+      containers:
+        - name: auth-pg-container
+          image: postgres:latest
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-pg-service
+
+spec:
+  selector:
+    component: auth-pg
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: auth-pg-service
