@@ -2,8 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { badRequestError } from "../errors/bad-request-error";
 import { getUser, insertUser } from "../models/db/user";
-import { User } from "../models/db/user/types";
-import { databaseRequestError } from "../errors/database-connection-error";
+import { compare } from "../models/db/user/utils";
 
 interface SignUpRequest extends Request {
   body: {
@@ -18,12 +17,13 @@ const signUp = async (req: SignUpRequest, res: Response, next: NextFunction) => 
 
   const { email, password } = req.body;
 
-  const existingUser = await getUser<User>(email);
+  const existingUser = await getUser(email);
 
   if (existingUser) return badRequestError([{ message: "user already exists" }], next);
-  const userInsertResult = await insertUser<User>({ email, password });
-  console.log("userInsertResult ", userInsertResult);
-  return res.status(201).json({ data: { email, password } });
+
+  const userInsertResult = (await insertUser({ email, password }))!;
+
+  return res.status(201).json({ data: { email: userInsertResult.email } });
 };
 
 export { signUp as signUpController };

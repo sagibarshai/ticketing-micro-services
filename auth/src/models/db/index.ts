@@ -14,12 +14,15 @@ export const initDB = async () => {
     await pgClient.connect();
 
     const isDatabaseExist = (await pgClient.query(`SELECT 1 FROM pg_database WHERE datname = $1`, ["usersDB"])).rowCount;
-    console.log("isDatabaseExist.rowCount! ", isDatabaseExist);
-    if (!isDatabaseExist) await pgClient.query("CREATE DATABASE usersDB");
-    console.log("Database usersDB created!");
+
+    if (!isDatabaseExist) {
+      await pgClient.query("CREATE DATABASE usersDB");
+      console.log("Database usersDB created!");
+    }
+
     await pgClient.query(`
       CREATE TABLE IF NOT EXISTS users (
-        email VARCHAR(255),
+        email VARCHAR(255) PRIMARY KEY,
         password VARCHAR(255)
       )
       `);
