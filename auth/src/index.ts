@@ -28,13 +28,15 @@ app.use("/api/auth/", signOutRouter);
 
 app.use("/api/auth", signUpRouter);
 
-app.use("*", (req, res, next) => {
+app.use("*", (_, __, next) => {
   return notFoundError([], next);
 });
 
 app.use(errorHandler);
 
 const startUp = () => {
+  if (!process.env.JWT_KEY) throw new Error("JWT_KEY must be defined");
+
   //  wait 5000 ms for the postgres pod will be up and running
   setTimeout(async () => {
     await initDB();
