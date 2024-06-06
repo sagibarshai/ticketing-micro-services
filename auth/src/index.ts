@@ -1,3 +1,4 @@
+import cookieSession from "cookie-session";
 import express, { Request, Response } from "express";
 import { json } from "body-parser";
 import { currentUserRouter } from "./routes/current-user";
@@ -9,8 +10,15 @@ import { notFoundError } from "./errors/not-found";
 import { initDB } from "./models/db";
 
 const app = express();
+app.set("trust proxy", true); // express will trust proxy as https
 
 app.use(json());
+app.use(
+  cookieSession({
+    signed: false, // not encrypt the cookie
+    secure: true, // https only
+  })
+);
 
 app.use("/api/auth/", currentUserRouter);
 

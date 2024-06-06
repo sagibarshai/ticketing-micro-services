@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 import { badRequestError } from "../errors/bad-request-error";
 import { getUser, insertUser } from "../models/db/user";
-import { compare } from "../models/db/user/utils";
 
 interface SignUpRequest extends Request {
   body: {
@@ -23,7 +23,13 @@ const signUp = async (req: SignUpRequest, res: Response, next: NextFunction) => 
 
   const userInsertResult = (await insertUser({ email, password }))!;
 
-  return res.status(201).json({ data: { email: userInsertResult.email } });
+  const userJwt = jwt.sign({ email: userInsertResult.email, id: userInsertResult.id }, process.env.JWT_KEY!);
+
+  req.session = {
+    jwt: userJwt,
+  };
+
+  return res.status(201).json({ data: { email: userInsertResult.email, id: userInsertResult.id } });
 };
 
 export { signUp as signUpController };

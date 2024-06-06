@@ -13,10 +13,11 @@ export const getUser = async (email: string): Promise<User | null> => {
   }
 };
 
-export const insertUser = async (user: User): Promise<User | null> => {
+export const insertUser = async (user: Omit<User, "id">): Promise<User | null> => {
   try {
     const hashed = await toHash(user.password);
-    const insertedUser = (await pgClient.query(`INSERT INTO users VALUES ($1, $2) RETURNING *`, [user.email, hashed])).rows[0] as User;
+    const insertedUser = (await pgClient.query(`INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *`, [user.email, hashed]))
+      .rows[0] as User;
     return insertedUser;
   } catch (err) {
     console.error("Error inserting user:", err);
