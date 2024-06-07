@@ -4,6 +4,7 @@ export enum errorsEnum {
   DATABASE_ERROR = "DATABASE_ERROR",
   BAD_REQUEST_ERROR = "BAD_REQUEST_ERROR",
   NOT_FOUND_ERROR = "NOT_FOUND_ERROR",
+  REQUIRE_AUTH = "REQUIRE_AUTH",
 }
 
 export interface DatabaseError {
@@ -15,6 +16,9 @@ export type BadRequestError = {
 } & Partial<ValidationError>;
 
 export interface NotFoundError {
+  message: string;
+}
+export interface RequireAuth {
   message: string;
 }
 

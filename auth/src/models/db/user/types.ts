@@ -3,3 +3,5 @@ export interface User {
   email: string;
   password: string;
 }
+
+export interface userPayload extends Omit<User, "password"> {}

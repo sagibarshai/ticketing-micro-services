@@ -15,11 +15,11 @@ const signIn = async (req: SignInRequest, res: Response, next: NextFunction) => 
   const { email, password } = req.body;
   const user = await getUser(email);
 
-  if (!user) return badRequestError([{ message: "User with this email does not exists " }], next);
+  if (!user) return badRequestError([{ message: "User with this email does not exists" }], next);
 
-  const passwordMatch = await compare(password, user.password);
+  const passwordsMatch = await compare(password, user.password);
 
-  if (!passwordMatch) return badRequestError([{ message: "Password is wrong" }], next);
+  if (!passwordsMatch) return badRequestError([{ message: "Password is wrong" }], next);
 
   const payload = { email: user.email, id: user.id };
 
