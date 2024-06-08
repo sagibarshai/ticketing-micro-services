@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: client
+  template:
+    metadata:
+      labels: 
+        component: client
+    spec:
+      containers:
+        - image: 315426346/ticketing-client:latest
+          name: client-container
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  selector:
+    component: client
+  ports:
+    - port: 3000
+      targetPort: 3000

@@ -40,8 +40,8 @@ const startUp = () => {
   //  wait 5000 ms for the postgres pod will be up and running
   setTimeout(async () => {
     await initDB();
-    console.log(`Auth service up on port 3000`);
+    console.log(`Auth service up on port 4000`);
   }, 5000);
 };
 
-app.listen(3000, () => startUp());
+app.listen(4000, () => startUp());
