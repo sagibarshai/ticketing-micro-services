@@ -1,29 +1,36 @@
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./App.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Login from "./pages/auth/login";
+import Header from "./components/layouts/header";
+import SignIn from "./pages/auth/signIn";
+import SignUp from "./pages/auth/signUp";
 
 const router = createBrowserRouter([
   {
     errorElement: <div>Page not found!</div>,
   },
   {
-    path: "/auth",
+    path: "/",
+    element: (
+      <>
+        <Outlet />
+        <Header />
+      </>
+    ),
     children: [
       {
-        path: "/auth/login",
-        element: <Login />,
+        path: "/auth/signIn",
+        element: <SignIn />,
+      },
+      {
+        path: "/auth/signUp",
+        element: <SignUp />,
       },
     ],
   },
 ]);
 
-function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
-}
-
-export default App;
+export default () => {
+  return <RouterProvider router={router} />;
+};

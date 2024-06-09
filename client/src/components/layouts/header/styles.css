@@ -1,0 +1,11 @@
+
+.header-nav-link {
+    color: white;
+    color: rgba(255,255,255,0.65);
+
+}
+.header-nav-link-active{
+    font-weight: bolder;
+    color: rgba(255,255,255,0.9);
+}
+
