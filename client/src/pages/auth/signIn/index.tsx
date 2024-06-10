@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { SignIpForm } from "../types";
 import { isEmailValid, isPasswordValid } from "../utils";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default () => {
+  const navigate = useNavigate();
   const [signInForm, setSignInForm] = useState<SignIpForm>({
     isValid: false,
     email: {
@@ -48,17 +50,18 @@ export default () => {
   const onSubmitForm = async () => {
     if (!signInForm.isValid) return;
     try {
-      const response = await axios.post("/api/auth/signIn", {
+      await axios.post("/api/auth/signIn", {
         email: signInForm.email.value,
         password: signInForm.password.value,
       });
+      navigate("/home");
     } catch (err) {
       console.log("err with sign up request ", err);
     }
   };
   return (
     <Grid container className="w-100 justify-content-center align-items-center d-flex auth-page-wrapper">
-      <Paper className="w-25 p-5 rounded-4">
+      <Paper className="w-25 h-50 p-5 rounded-4">
         <Grid container className="d-flex flex-column gap-5 text-center">
           <Grid item>
             <h1>Sign In </h1>

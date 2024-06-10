@@ -5,6 +5,7 @@ import "./App.css";
 import Header from "./components/layouts/header";
 import SignIn from "./pages/auth/signIn";
 import SignUp from "./pages/auth/signUp";
+import Home from "./pages/home";
 
 const router = createBrowserRouter([
   {
@@ -14,8 +15,8 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <>
-        <Outlet />
         <Header />
+        <Outlet />
       </>
     ),
     children: [
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/auth/signUp",
         element: <SignUp />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
       },
     ],
   },
