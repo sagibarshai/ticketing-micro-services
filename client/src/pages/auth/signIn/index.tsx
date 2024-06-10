@@ -57,7 +57,7 @@ export default () => {
   const onSubmitForm = async () => {
     if (!signInForm.isValid) return;
     try {
-      await axios.post("/api/auth/signUp", {
+      await axios.post("/api/auth/signIn", {
         email: signInForm.email.value,
         password: signInForm.password.value,
       });
@@ -111,7 +111,7 @@ export default () => {
           </Grid>
           <Grid item>
             <Button onClick={onSubmitForm} variant="contained" fullWidth disabled={!signInForm.isValid}>
-              Sign In
+              Sign Up
             </Button>
           </Grid>
         </Grid>

@@ -10,28 +10,21 @@ export default () => {
 
   const navigate = useNavigate();
 
-  const checkIsAuthenticated = async (): Promise<boolean> => {
-    try {
-      const response = await axios.get("/api/auth/currentUser");
-      if (response.data?.user) return true;
-      return false;
-    } catch (err) {
-      console.log("err ", err);
-      return false;
-    }
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get("/api/auth/currentUser");
+        if (response.data?.user) setIsAuthenticated(true);
+        else setIsAuthenticated(false);
+      } catch (err) {
+        setIsAuthenticated(false);
+        console.log("err ", err);
+      }
+    })();
+  }, [window.location.pathname]);
 
   useEffect(() => {
-    const executeIsAuthenticated = async () => {
-      const isAuth = await checkIsAuthenticated();
-      setIsAuthenticated(isAuth);
-    };
-    executeIsAuthenticated();
-  }, []);
-
-  useEffect(() => {
-    if (isAuthenticated) navigate("/home");
-    else navigate("/auth/signUp");
+    isAuthenticated ? navigate("/home") : navigate("/auth/signUp");
   }, [isAuthenticated]);
 
   return (
