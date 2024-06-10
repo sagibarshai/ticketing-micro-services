@@ -6,6 +6,7 @@ import Header from "./components/layouts/header";
 import SignIn from "./pages/auth/signIn";
 import SignUp from "./pages/auth/signUp";
 import Home from "./pages/home";
+import SignOut from "./pages/auth/signOut";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/auth/signUp",
         element: <SignUp />,
+      },
+      {
+        path: "/auth/signOut",
+        element: <SignOut />,
       },
       {
         path: "/home",
