@@ -1,13 +1,13 @@
 import cookieSession from "cookie-session";
-import express, { Request, Response } from "express";
+import express from "express";
 import { json } from "body-parser";
 import { currentUserRouter } from "./routes/current-user";
 import { signInRouter } from "./routes/signIn";
 import { signOutRouter } from "./routes/signout";
 import { signUpRouter } from "./routes/signup";
-import { errorHandler } from "./middlewares/errors";
-import { notFoundError } from "./errors/not-found";
+import { errorHandler } from "@sagi-ticketing/common";
 import { initDB } from "./models/db";
+import { notFoundError } from "@sagi-ticketing/common";
 
 const app = express();
 app.set("trust proxy", true); // express will trust proxy as https

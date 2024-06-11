@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { badRequestError } from "../errors/bad-request-error";
+import { badRequestError } from "@sagi-ticketing/common";
 import { getUser, insertUser } from "../models/db/user";
 import { userPayload } from "../models/db/user/types";
 
-interface SignUpRequest extends Request {
+export interface SignUpRequest extends Request {
   body: {
     email: string;
     password: string;

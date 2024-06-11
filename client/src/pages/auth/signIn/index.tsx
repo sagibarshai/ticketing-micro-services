@@ -111,7 +111,7 @@ export default () => {
           </Grid>
           <Grid item>
             <Button onClick={onSubmitForm} variant="contained" fullWidth disabled={!signInForm.isValid}>
-              Sign Up
+              Sign In
             </Button>
           </Grid>
         </Grid>
