@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { currentUserController } from "../controllers/current-user";
-import { currentUserMiddleWare } from "../middlewares/current-user";
-import { requireAuthMiddleWare } from "../middlewares/require-auth";
+import { currentUserController } from "@sagi-ticketing/common";
+import { currentUserMiddleWare } from "@sagi-ticketing/common";
+import { requireAuthMiddleWare } from "@sagi-ticketing/common";
 
 export const router = Router();
 

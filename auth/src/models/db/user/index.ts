@@ -1,5 +1,5 @@
 import { pgClient } from "..";
-import { User } from "./types";
+import { User } from "@sagi-ticketing/common";
 import { toHash, compare } from "./utils";
 
 export const getUser = async (email: string): Promise<User | null> => {

@@ -1,7 +1,3 @@
-export interface User {
-  id: number;
-  email: string;
-  password: string;
-}
+import { User } from "@sagi-ticketing/common";
 
-export interface userPayload extends Omit<User, "password"> {}
+export interface UserPayload extends Omit<User, "password"> {}

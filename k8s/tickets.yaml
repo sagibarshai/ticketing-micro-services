@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-depl
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: tickets
+  template:
+    metadata:
+      labels:
+        component: tickets
+    spec:
+      containers:
+        - image: 315426346/ticketing-tickets
+          name: tickets-container
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-service
+spec:
+  type: ClusterIP
+  selector:
+    component: tickets
+  ports:
+    - port: 4001
+      targetPort: 4001
+
+      
+

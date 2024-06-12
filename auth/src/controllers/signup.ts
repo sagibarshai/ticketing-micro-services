@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { badRequestError } from "@sagi-ticketing/common";
 import { getUser, insertUser } from "../models/db/user";
-import { userPayload } from "../models/db/user/types";
+import { UserPayload } from "../models/db/user/types";
 
 export interface SignUpRequest extends Request {
   body: {
@@ -20,7 +20,7 @@ const signUp = async (req: SignUpRequest, res: Response, next: NextFunction) => 
 
   const userInsertResult = (await insertUser({ email, password }))!;
 
-  const payload: userPayload = { email: userInsertResult.email, id: userInsertResult.id };
+  const payload: UserPayload = { email: userInsertResult.email, id: userInsertResult.id };
 
   const userJwt = jwt.sign(payload, process.env.JWT_KEY!);
 

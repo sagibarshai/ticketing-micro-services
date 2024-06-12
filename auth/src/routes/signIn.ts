@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body } from "express-validator";
 import { signInController } from "../controllers/signin";
-import { validationRequest } from "../middlewares/validation-request";
+import { validationRequest } from "@sagi-ticketing/common";
 
 const router = Router();
 

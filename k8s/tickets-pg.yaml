@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickets-pg-depl
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: tickets-pg
+  template:
+    metadata:
+      labels:
+        component: tickets-pg
+    spec:
+      containers:
+        - name: tickets-pg-container
+          image: postgres:latest
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickets-pg-service
+
+spec:
+  selector:
+    component: tickets-pg
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: tickets-pg-service

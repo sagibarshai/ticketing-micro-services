@@ -16,6 +16,13 @@ spec:
                 name: auth-service
                 port:
                   number: 4000
+          - path: /api/tickets/
+            pathType: Prefix
+            backend:
+              service:
+                name: tickets-service
+                port:
+                  number: 4001
           - path: /
             pathType: Prefix
             backend:
