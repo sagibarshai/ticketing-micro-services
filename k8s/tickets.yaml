@@ -16,7 +16,12 @@ spec:
       containers:
         - image: 315426346/ticketing-tickets
           name: tickets-container
-
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt
+                  key: JWT_KEY
 ---
 
 apiVersion: v1

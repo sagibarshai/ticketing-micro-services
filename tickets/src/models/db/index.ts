@@ -18,7 +18,7 @@ export const initDb = async () => {
             id SERIAL PRIMARY KEY,
             userId INT,
             price INT,
-            title VARCHAR(500)
+            title VARCHAR(255)
         )`);
     console.log("TABLE tickets just created!");
   } catch (err) {

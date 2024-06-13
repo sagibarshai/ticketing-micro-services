@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@sagi-ticketing/common": "^1.0.32"
+  }
+}
