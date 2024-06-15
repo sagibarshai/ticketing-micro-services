@@ -6,11 +6,9 @@ import { createTicketController } from "../controllers/create-ticket";
 const router = Router();
 
 router.post(
-  "/create",
-  currentUserMiddleWare,
-  requireAuthMiddleWare,
-  body("price").isNumeric(),
-  body("title").notEmpty(),
+  "/",
+  body("price").isNumeric().withMessage("Price must be specified"),
+  body("title").notEmpty().withMessage("Title is not valid"),
   validationRequest,
   createTicketController
 );

@@ -2,8 +2,10 @@ import express, { Request, Response } from "express";
 import { json } from "body-parser";
 import { initDb } from "./models/db";
 import { createTicketsRouter } from "./routes/create-ticket";
-import { errorHandler } from "@sagi-ticketing/common";
+import { getTicketRouter } from "./routes/get-ticket";
+import { currentUserMiddleWare, errorHandler, requireAuthMiddleWare } from "@sagi-ticketing/common";
 import cookieSession from "cookie-session";
+import { editTicketRouter } from "./routes/edit-ticket";
 
 const app = express();
 app.use(json());
@@ -15,9 +17,15 @@ app.use(
   })
 );
 
-app.get("/api/tickets", (req: Request, res: Response) => res.send("hi"));
+if (!process.env.JWT_KEY) throw new Error("JWT_KEY must be defined!");
+
+app.use(currentUserMiddleWare, requireAuthMiddleWare);
+
+app.use("/api/tickets", getTicketRouter);
 
 app.use("/api/tickets", createTicketsRouter);
+
+app.use("/api/tickets", editTicketRouter);
 
 const startUp = () => {
   // wait 5000 ms for postgres db be ready
