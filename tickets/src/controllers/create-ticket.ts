@@ -2,7 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import { createTicket } from "../models/ticket";
 import { databaseRequestError } from "@sagi-ticketing/common";
 
-export const createTicketController = async (req: Request, res: Response, next: NextFunction) => {
+interface CreateTicketRequest extends Request {
+  body: {
+    price: number;
+    title: string;
+  };
+}
+
+export const createTicketController = async (req: CreateTicketRequest, res: Response, next: NextFunction) => {
   const { price, title } = req.body;
   const { id } = req.currentUser;
   try {
