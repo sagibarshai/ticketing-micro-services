@@ -34,12 +34,12 @@ metadata:
   name: nats-service
 spec:
   selector:
-    component: nats-depl
+    component: nats
   ports:
     - name: client
       port: 4222
       targetPort: 4222
-
+ 
     - name: monitoring
       port: 8222
       targetPort: 8222

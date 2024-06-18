@@ -1,7 +1,7 @@
 import { pgClient } from "../db";
 import { Ticket } from "./types";
 
-export const createTicket = async (ticket: Ticket): Promise<Ticket[]> => {
+export const createTicket = async (ticket: Omit<Ticket, "id">): Promise<Ticket[]> => {
   return (
     await pgClient.query(`INSERT INTO tickets (userId, title, price) VALUES($1, $2, $3) RETURNING *`, [ticket.userId, ticket.title, ticket.price])
   ).rows;
