@@ -23,11 +23,7 @@ if (!process.env.JWT_KEY) throw new Error("JWT_KEY must be defined!");
 
 app.use(currentUserMiddleWare, requireAuthMiddleWare);
 
-app.use("/api/tickets", getTicketRouter);
-
-app.use("/api/tickets", createTicketsRouter);
-
-app.use("/api/tickets", editTicketRouter);
+app.use("/api/tickets/", getTicketRouter, createTicketsRouter, editTicketRouter);
 
 const startUp = () => {
   // wait 10000 ms for postgres db and NATS to be ready
@@ -35,7 +31,12 @@ const startUp = () => {
   setTimeout(async () => {
     await initDb();
     await natsWrapper.connect("ticketing", randomBytes(4).toString("hex"), "http://nats-service:4222");
-
+    natsWrapper.client?.on("close", () => {
+      console.log("NATS connection closed!");
+      process.exit();
+    });
+    process.on("SIGINT", () => natsWrapper.client?.close());
+    process.on("SIGTERM", () => natsWrapper.client?.close());
     console.log("Ticketing server up on 4001!");
   }, 10000);
 };
