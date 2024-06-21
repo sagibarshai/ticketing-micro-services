@@ -8,8 +8,8 @@ import { signUpRouter } from "./routes/signup";
 import { Subjects, errorHandler } from "@sagi-ticketing/common";
 import { initDB } from "./models/db";
 import { notFoundError, TicketCreatedEvent, Listener } from "@sagi-ticketing/common";
-import { Message } from "node-nats-streaming";
-import nats from "node-nats-streaming";
+import nats, { Message } from "node-nats-streaming";
+
 import { randomBytes } from "crypto";
 
 const app = express();
