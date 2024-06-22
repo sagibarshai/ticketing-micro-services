@@ -7,13 +7,13 @@ export class NatsWrapper {
     this.client = nats.connect(clusterId, clientId, { url });
     return new Promise((resolve, reject) => {
       this.client?.on("connect", () => {
-        console.log("Tickets connected to NATS");
+        console.log("Orders connected to NATS");
 
         resolve();
       });
 
       this.client?.on("error", (err) => {
-        console.error("Tickets cannot connected to NATS ", err);
+        console.error("Orders cannot connected to NATS ", err);
         reject(err);
       });
     });

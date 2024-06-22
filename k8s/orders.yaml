@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-depl
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: orders
+  template:
+    metadata:
+      labels:
+        component: orders
+    spec:
+      containers:
+        - image: 315426346/ticketing-orders
+          name: orders-container
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt
+                  key: JWT_KEY
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-service
+spec:
+  type: ClusterIP
+  selector:
+    component: orders
+  ports:
+    - port: 4002
+      targetPort: 4002
+
+      
+

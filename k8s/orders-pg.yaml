@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-pg-depl
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: orders-pg
+  template:
+    metadata:
+      labels:
+        component: orders-pg
+    spec:
+      containers:
+        - name: orders-pg-container
+          image: postgres:latest
+          env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: postgres
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-pg-service
+
+spec:
+  selector:
+    component: orders-pg
+  ports:
+    - port: 5432
+      targetPort: 5432
+      name: orders-pg-service
