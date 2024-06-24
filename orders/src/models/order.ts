@@ -21,7 +21,7 @@ export const createOrderModel = async (order: Omit<Order, "id">): Promise<Order>
 };
 
 export const updateOrderModel = async (order: Order): Promise<Order> => {
-  const updatedOrder = (await pgClient.query(`UPDATE orders SET status=$1, WHERE id=$2 RETURNING *`, [order.status, order.id])).rows[0] as Order;
+  const updatedOrder = (await pgClient.query(`UPDATE orders SET status=$1 WHERE id=$2 RETURNING *`, [order.status, order.id])).rows[0] as Order;
   return updatedOrder;
 };
 
