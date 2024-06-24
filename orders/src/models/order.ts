@@ -1,7 +1,43 @@
-export const createOrder = async () => {};
+import { pgClient } from "./db";
 
-export const updateOrder = async () => {};
+export interface Order {
+  id: number;
+  userId: number;
+  status: "created" | "cancelled" | "pending" | "complete";
+  expiredAt: Date;
+  ticketId: number;
+}
 
-export const deleteOrder = async () => {};
+export const createOrderModel = async (order: Omit<Order, "id">): Promise<Order> => {
+  const newOrder = (
+    await pgClient.query(`INSERT INTO orders (userId, status, expiredAt, ticketId) VALUES ($1, $2, $3, $4) RETURNING *`, [
+      order.userId,
+      order.status,
+      order.expiredAt,
+      order.ticketId,
+    ])
+  ).rows[0] as Order;
+  return newOrder;
+};
 
-export const getOrder = async () => {};
+export const updateOrderModel = async (order: Order): Promise<Order> => {
+  const updatedOrder = (
+    await pgClient.query(`UPDATE orders SET userId=$1, status=$2, expiredAt=$3, ticketId=$4 WHERE id=$5 RETURNING *`, [
+      order.userId,
+      order.status,
+      order.expiredAt,
+      order.ticketId,
+      order.id,
+    ])
+  ).rows[0] as Order;
+  return updatedOrder;
+};
+
+export const getOrderModel = async (userId: Order["userId"], id?: Order["id"]): Promise<Order> => {
+  let order: Order;
+
+  if (id !== undefined) order = (await pgClient.query(`SELECT * FROM orders WHERE id=$1 AND userId=$2`, [id, userId])).rows[0] as Order;
+  else order = (await pgClient.query(`SELECT * FROM orders WHERE userId=$1`, [userId])).rows[0] as Order;
+
+  return order;
+};

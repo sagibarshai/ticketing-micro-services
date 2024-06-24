@@ -16,7 +16,7 @@ export const initDb = async () => {
     console.log("DATABASE tickets just created!");
     await pgClient.query(`CREATE TABLE IF NOT EXISTS tickets (
             id SERIAL PRIMARY KEY,
-            userId INT,
+            "userId" INT,
             price INT,
             title VARCHAR(255)
         )`);

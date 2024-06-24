@@ -22,7 +22,6 @@ const signIn = async (req: SignInRequest, res: Response, next: NextFunction) => 
   if (!passwordsMatch) return badRequestError([{ message: "Password is wrong" }], next);
 
   const payload = { email: user.email, id: user.id };
-  console.log(process.env.JWT_KEY);
   const userJwt = jwt.sign(payload, process.env.JWT_KEY!);
 
   req.session = {

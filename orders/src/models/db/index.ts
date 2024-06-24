@@ -29,10 +29,10 @@ export const initDb = async () => {
     await pgClient.query(`
         CREATE TABLE IF NOT EXISTS orders (
         id SERIAL PRIMARY KEY,
-        userId INT,
+        "userId" INT,
         status STATUS,
-        expiredAt TIMESTAMP,
-        ticketId INT REFERENCES tickets
+        "expiredAt" TIMESTAMP,
+        "ticketId" INT REFERENCES tickets
 
       )`);
     console.log("TABLE orders just created!");

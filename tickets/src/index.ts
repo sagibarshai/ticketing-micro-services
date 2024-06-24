@@ -3,7 +3,7 @@ import { json } from "body-parser";
 import { initDb } from "./models/db";
 import { createTicketsRouter } from "./routes/create-ticket";
 import { getTicketRouter } from "./routes/get-ticket";
-import { currentUserMiddleWare, errorHandler, requireAuthMiddleWare } from "@sagi-ticketing/common";
+import { currentUserMiddleWare, errorHandler, notFoundError, requireAuthMiddleWare } from "@sagi-ticketing/common";
 import cookieSession from "cookie-session";
 import { editTicketRouter } from "./routes/edit-ticket";
 import { natsWrapper } from "./events";
@@ -40,6 +40,10 @@ const startUp = () => {
     console.log("Ticketing server up on 4001!");
   }, 10000);
 };
+
+app.use("*", (_, __, next) => {
+  return notFoundError([], next);
+});
 
 app.use(errorHandler);
 
