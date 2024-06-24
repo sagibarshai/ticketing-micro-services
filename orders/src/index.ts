@@ -1,11 +1,16 @@
-import express, { Request } from "express";
+import express, { Request, Response } from "express";
 import { json } from "body-parser";
 import { randomBytes } from "crypto";
 
 import cookieSession from "cookie-session";
 import { currentUserMiddleWare, errorHandler, requireAuthMiddleWare } from "@sagi-ticketing/common";
-import { natsWrapper } from "../events";
-import { initDb } from "../models/db";
+import { natsWrapper } from "./events";
+import { initDb } from "./models/db";
+import { getOrderRouter } from "./routes/get-order";
+import { updateOrderRouter } from "./routes/update-order";
+import { createOrderRouter } from "./routes/create-order";
+
+if (!process.env.JWT_KEY) throw new Error("JWT_KEY must be defined!");
 
 const app = express();
 app.use(json());
@@ -17,10 +22,9 @@ app.use(
   })
 );
 
-app.use("", (req: Request) => {
-  req.currentUser;
-});
-if (!process.env.JWT_KEY) throw new Error("JWT_KEY must be defined!");
+app.use(currentUserMiddleWare, requireAuthMiddleWare);
+
+app.use("/api/orders", getOrderRouter, updateOrderRouter, createOrderRouter);
 
 // app.use(currentUserMiddleWare, requireAuthMiddleWare);
 
