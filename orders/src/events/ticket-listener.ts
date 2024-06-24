@@ -1,15 +1,25 @@
-import { Listener, Subjects, TicketCreatedEvent } from "@sagi-ticketing/common";
+import { Listener, Subjects, TicketCreatedEvent, TicketUpdatedEvent } from "@sagi-ticketing/common";
 import { Message } from "node-nats-streaming";
 import { natsWrapper } from ".";
-import { createTicket } from "../models/ticket";
+import { Ticket, createTicket, editTicket } from "../models/ticket";
 
 export class TicketCreatedListener extends Listener<TicketCreatedEvent> {
   readonly subject = Subjects.TicketCreated;
   queueGroupName = "ticket-created-queue-group";
-  onMessage(data: { id: number; userId: number; title: string; price: number }, msg: Message): void {
+  onMessage(data: Ticket, msg: Message): void {
     (async () => {
-      const ticket = await createTicket(data);
-      console.log("ticket created ! ", ticket);
+      await createTicket(data);
+      msg.ack();
+    })();
+  }
+}
+
+export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
+  readonly subject = Subjects.TicketUpdated;
+  queueGroupName = "ticket-updated-queue-group";
+  onMessage(data: Ticket, msg: Message): void {
+    (async () => {
+      await editTicket(data);
       msg.ack();
     })();
   }

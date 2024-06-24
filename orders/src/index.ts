@@ -9,7 +9,7 @@ import { initDb } from "./models/db";
 import { getOrderRouter } from "./routes/get-order";
 import { updateOrderRouter } from "./routes/update-order";
 import { createOrderRouter } from "./routes/create-order";
-import { TicketCreatedListener } from "./events/ticket-listener";
+import { TicketCreatedListener, TicketUpdatedListener } from "./events/ticket-listener";
 
 if (!process.env.JWT_KEY) throw new Error("JWT_KEY must be defined!");
 
@@ -42,6 +42,7 @@ const startUp = () => {
     process.on("SIGINT", () => natsWrapper.client?.close());
     process.on("SIGTERM", () => natsWrapper.client?.close());
     new TicketCreatedListener(natsWrapper.client!).listen();
+    new TicketUpdatedListener(natsWrapper.client!).listen();
 
     console.log("Orders server up on 4002!");
   }, 10000);

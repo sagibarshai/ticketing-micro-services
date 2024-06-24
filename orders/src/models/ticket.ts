@@ -18,6 +18,13 @@ export const createTicket = async (ticket: Ticket): Promise<Ticket> => {
   ).rows[0];
 };
 
-export const editTicket = async (id: number, price: number, title: string, userId: number): Promise<Ticket> => {
-  return (await pgClient.query(`UPDATE tickets SET price=$1, title=$2 WHERE id=$3 AND "userId"=$4 RETURNING *`, [price, title, id, userId])).rows[0];
+export const editTicket = async (ticket: Ticket): Promise<Ticket> => {
+  return (
+    await pgClient.query(`UPDATE tickets SET price=$1, title=$2 WHERE id=$3 AND "userId"=$4 RETURNING *`, [
+      ticket.price,
+      ticket.title,
+      ticket.id,
+      ticket.userId,
+    ])
+  ).rows[0];
 };
