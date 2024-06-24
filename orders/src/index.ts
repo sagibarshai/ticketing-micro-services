@@ -53,6 +53,4 @@ app.use("*", (_, __, next) => {
 
 app.use(errorHandler);
 
-app.use(errorHandler);
-
 app.listen(4002, () => startUp());

@@ -9,7 +9,7 @@ export interface Ticket {
 
 export const createTicket = async (ticket: Ticket): Promise<Ticket> => {
   return (
-    await pgClient.query(`INSERT INTO tickets (id, userId, title, price) VALUES($1, $2, $3, $4) RETURNING *`, [
+    await pgClient.query(`INSERT INTO tickets (id, "userId", title, price) VALUES($1, $2, $3, $4) RETURNING *`, [
       ticket.id,
       ticket.userId,
       ticket.title,
@@ -19,5 +19,5 @@ export const createTicket = async (ticket: Ticket): Promise<Ticket> => {
 };
 
 export const editTicket = async (id: number, price: number, title: string, userId: number): Promise<Ticket> => {
-  return (await pgClient.query(`UPDATE tickets SET price=$1, title=$2 WHERE id=$3 AND userId=$4 RETURNING *`, [price, title, id, userId])).rows[0];
+  return (await pgClient.query(`UPDATE tickets SET price=$1, title=$2 WHERE id=$3 AND "userId"=$4 RETURNING *`, [price, title, id, userId])).rows[0];
 };

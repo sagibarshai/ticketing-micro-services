@@ -6,11 +6,11 @@ interface CreateOrderRequest extends Request {
   body: Omit<Order, "id">;
 }
 
-const createOrder = async (req: CreateOrderRequest, response: Response, next: NextFunction) => {
+const createOrder = async (req: CreateOrderRequest, res: Response, next: NextFunction) => {
   const { expiredAt, status, ticketId, userId } = req.body;
   try {
     const order = await createOrderModel({ expiredAt, status, ticketId, userId });
-    return response.status(201).json({ data: order });
+    return res.status(201).json({ data: order });
   } catch (err) {
     console.log("Error with create order controller ", err);
     return databaseRequestError([], next);
