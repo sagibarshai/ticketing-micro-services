@@ -15,7 +15,4 @@ const getOrder = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-
-
-
 export { getOrder as getOrderController };
